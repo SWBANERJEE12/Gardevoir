@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { newState } from "@/lib/server/jwt";
 import { saveState } from "@/lib/server/oauth-state";
 
 export async function GET(req: NextRequest) {
@@ -9,8 +8,7 @@ export async function GET(req: NextRequest) {
   }
   const origin = req.nextUrl.origin;
   const redirectUri = process.env.GITHUB_REDIRECT_URI || `${origin}/api/auth/github/callback`;
-  const state = newState();
-  saveState(state);
+  const state = saveState();
   const params = new URLSearchParams({
     client_id: clientId,
     redirect_uri: redirectUri,
