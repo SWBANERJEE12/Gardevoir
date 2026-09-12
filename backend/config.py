@@ -2,9 +2,10 @@ import os
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    AI_API_KEY: str = os.getenv("AI_API_KEY", "")
-    AI_BASE_URL: str = os.getenv("AI_BASE_URL", "https://api.openai.com/v1")
-    AI_MODEL: str = os.getenv("AI_MODEL", "gpt-4o-mini")
+    AI_API_KEY: str = os.getenv("AI_API_KEY", os.getenv("GROQ_API_KEY", ""))
+    AI_BASE_URL: str = os.getenv("AI_BASE_URL", "https://api.groq.com/openai/v1")
+    AI_MODEL: str = os.getenv("AI_MODEL", os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"))
+    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
     SENTINEL_DB_PATH: str = os.getenv("SENTINEL_DB_PATH", "sentinel.db")
     AUTH_DB_PATH: str = os.getenv("AUTH_DB_PATH", "gardevoir_users.db")
     JWT_SECRET: str = os.getenv("JWT_SECRET", "gardevoir-local-dev-secret-change-me")

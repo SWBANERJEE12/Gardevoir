@@ -19,7 +19,7 @@ export function AuthPanel({ mode }: AuthPanelProps) {
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(params.get("error"));
   const [busy, setBusy] = useState(false);
-  const [providers, setProviders] = useState<ProviderStatus>({ google: false, github: false });
+  const [providers, setProviders] = useState<ProviderStatus>({ google: false, github: true });
 
   useEffect(() => {
     getProviders().then(setProviders).catch(() => undefined);
@@ -67,29 +67,17 @@ export function AuthPanel({ mode }: AuthPanelProps) {
         </h1>
         <p className="rise rise-delay-2 sans mt-3 text-[13px] font-light leading-6 text-[#6b746e]">
           {mode === "login"
-            ? "Continue with Google, GitHub, or your email."
-            : "Link Google or GitHub, or choose an email and password."}
+            ? "Continue with GitHub, or your email."
+            : "Link GitHub, or choose an email and password."}
         </p>
 
         <div className="rise rise-delay-3 mt-10 space-y-3">
-          <a
-            href={providers.google ? oauthUrl("google", mode) : undefined}
-            onClick={(e) => {
-              if (!providers.google) {
-                e.preventDefault();
-                setError("Add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to backend/.env to enable Google sign-in.");
-              }
-            }}
-            className="quiet-btn sans flex w-full items-center justify-center rounded-full border border-[#1c241f]/12 bg-white/55 py-3 text-[11px] uppercase tracking-[0.22em] backdrop-blur-sm hover:border-[#2f6b4f]/35"
-          >
-            Continue with Google
-          </a>
           <a
             href={providers.github ? oauthUrl("github", mode) : undefined}
             onClick={(e) => {
               if (!providers.github) {
                 e.preventDefault();
-                setError("Add GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET to backend/.env to enable GitHub sign-in.");
+                setError("GitHub sign-in is not configured yet.");
               }
             }}
             className="quiet-btn sans flex w-full items-center justify-center rounded-full border border-[#1c241f]/12 bg-white/55 py-3 text-[11px] uppercase tracking-[0.22em] backdrop-blur-sm hover:border-[#2f6b4f]/35"

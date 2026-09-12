@@ -107,6 +107,7 @@ export interface ScanReport {
   ai_summary?: AISecuritySummary;
   timeline: TimelineEvent[];
   current_step: string;
+  learned_lessons?: string[];
 }
 
 export interface DemoTargetInfo {

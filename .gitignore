@@ -17,6 +17,8 @@ build/
 .env.test.local
 .env.production.local
 .vercel/
+data/
+.vercel/
 
 # OS
 .DS_Store

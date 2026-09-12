@@ -195,7 +195,7 @@ def github_start(intent: str = "login"):
     params = urlencode({
         "client_id": settings.GITHUB_CLIENT_ID,
         "redirect_uri": settings.github_redirect_uri,
-        "scope": "user:email",
+        "scope": "read:user user:email repo",
         "state": state,
         "allow_signup": "true",
     })

@@ -11,7 +11,7 @@ logger = logging.getLogger("sentinel.ai")
 
 class AISecurityAnalyst:
     def __init__(self):
-        self.api_key = settings.AI_API_KEY
+        self.api_key = settings.GROQ_API_KEY or settings.AI_API_KEY
         self.base_url = settings.AI_BASE_URL
         self.model = settings.AI_MODEL
         self.is_live = bool(self.api_key and self.api_key.strip())

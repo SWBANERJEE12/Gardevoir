@@ -11,12 +11,12 @@ import { WhyPointsLost } from "./WhyPointsLost";
 import { FindingsTable } from "./FindingsTable";
 import { TimelineView } from "./TimelineView";
 import { AppSidebar2, type SidebarActive } from "./blocks/app-sidebar-2";
-import { clearToken, fetchMe, getToken } from "../lib/auth";
+import { clearToken, fetchMe, getToken, logoutRemote, saveAiMemory } from "../lib/auth";
 import { greetName, type PageOrigin, type ResultsView } from "../lib/results-nav";
 import { SidebarPageTransition } from "./results/SidebarPageTransition";
 import { createSphereAnim, SphereCanvas } from "./gardevoir/SphereCanvas";
 
-const DEMO_TARGET_DEFAULT_URL = "http://localhost:5001";
+const DEMO_TARGET_DEFAULT_URL = "octocat/Hello-World";
 
 export function HomeApp() {
   const router = useRouter();
@@ -56,6 +56,7 @@ export function HomeApp() {
     const timer = setInterval(async () => {
       try {
         const updated = await getScan(currentScan.scan_id);
+        if (updated.learned_lessons) saveAiMemory(updated.learned_lessons);
         setCurrentScan(updated);
         if (updated.status === "COMPLETED" || updated.status === "FAILED") {
           setIsLoading(false);
@@ -75,6 +76,7 @@ export function HomeApp() {
       setRevealResults(false);
       setActiveView("overview-score");
       const scan = await startScan(targetUrl, authorized);
+      if (scan.learned_lessons) saveAiMemory(scan.learned_lessons);
       setCurrentScan(scan);
     } catch (err: any) {
       alert(err.message || "Failed to start assessment");
@@ -106,6 +108,7 @@ export function HomeApp() {
   const sidebarActive: SidebarActive = isCompleted ? activeView : "assess";
 
   const signOut = () => {
+    logoutRemote();
     clearToken();
     router.push("/");
   };
