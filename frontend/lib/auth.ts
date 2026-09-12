@@ -83,6 +83,7 @@ export async function logoutRemote() {
   await fetch(`${API_BASE_URL}/auth/logout`, { method: "POST", credentials: "include" }).catch(() => undefined);
 }
 
-export function oauthUrl(provider: "google" | "github", intent: "login" | "signup") {
-  return `${API_BASE_URL}/auth/${provider}?intent=${intent}`;
+export function oauthUrl(provider: "google" | "github", _intent: "login" | "signup") {
+  if (provider === "github") return "/auth/github";
+  return `${API_BASE_URL}/auth/${provider}`;
 }
